@@ -1,9 +1,17 @@
-<?php 
-require "controller.php";
+<?php
 
-$controller = new Controller;
+//var_dump($_GET[]'controlador']);
 
-$controller->index();
-if ($_SERVER['REQUEST_METHOD']=='POST'){
-    $controller->guardar();
+if(!isset($_GET['c'])){
+    require_once "controllers/UsuarioController.php";
+    $controller = new Controller();
+    call_user_func(array($controller, "index"));
+}else{
+    $controller = $_GET['c'];
+    require_once "$controller.controllers/UsuarioController.php";
+    $controller = ucwords($controller)."controllers/UsuarioController";
+    $controller = new $controller;
+    $accion = isset($_GET['a']) ? $_GET['a'] : "index" ;
+    call_user_func(array($controller,$accion));
+
 }
